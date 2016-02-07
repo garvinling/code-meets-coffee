@@ -11,7 +11,7 @@ App = React.createClass({
 	getMeteorData(){
 
 		return {
-			repoCards : Repos.find({}).fetch()			
+			repoCards : Repos.find().fetch()		
 		}	
 	},
 
@@ -31,7 +31,6 @@ App = React.createClass({
 		return (
 			<div className="main-container">
 				{this.renderCurrentRepo()}
-				{this.data.repo}
 			</div>
 
 		);

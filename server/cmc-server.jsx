@@ -14,30 +14,7 @@ Meteor.publish('repos',function(){
 
 });
 
-
-
-Meteor.methods({
-
-	authenticateGitHub : function(){
-
-
-		github.authenticate({
-
-			type : "basic",
-			username: Meteor.settings.private.GITHUB_USERNAME,
-			password: Meteor.settings.private.GITHUB_PW
-
-
-		});
-
-
-	},
-
-	searchRepos : function(keyword , sortBy , order){
-			
-			var fut = new Future();
-
-			var boundCallback = Meteor.bindEnvironment(function(err,res){
+var boundCallback = Meteor.bindEnvironment(function(err,res){
 
 					if(err) {
 						fut.return(err);
@@ -55,23 +32,46 @@ Meteor.methods({
 							size : repoObj.size,
 							rank : repoObj.score,
 							description : repoObj.description,
+							issues : repoObj.open_issues_count,
+							language : repoObj.language,
 							image : repoObj.owner.avatar_url
 
 						}
 						Repos.update({name:repoObj.name},repoToPush,{upsert:true});
+
 						fut.return(res);
 					}
-
-
 			});
 
+
+
+
+Meteor.methods({
+
+	authenticateGitHub : function(){
+
+
+		github.authenticate({
+
+			type : "basic",
+			username: Meteor.settings.private.GITHUB_USERNAME,
+			password: Meteor.settings.private.GITHUB_PW
+
+		});
+
+	},
+
+	searchRepos : function(keyword , sortBy , order){
+			
+			var fut = new Future();
 
 			github.search.repos({
 
 				q : 'language:'+keyword , 
 				sort : sortBy , 
-				order: 'desc',
-				per_page:1
+				order: 'asc',
+				per_page:1,
+				page:1
 
 
 			}, boundCallback);
@@ -79,26 +79,30 @@ Meteor.methods({
 		return fut.wait();
 	}
 
+
+	// ,
+
+	// getRandomRepo : function(keyword , sortBy , order) {
+
+	// 	var fut = new Future();
+
+	// 	github.search.repos({
+	// 		q : 'language:' + keyword , 
+	// 		sort : sortBy , 
+	// 		order : 'desc',
+	// 		per_page: 40,
+	// 		page:1
+
+	// 	})
+	// }
+
+
+
+
 });
 
 
 
-//  Meteor.methods({
-//     callAsync: function () {
-//       var fut = new Future();
-//       var bound_callback = Meteor.bindEnvironment(function (err, res) {
-//         if(err) {
-//           fut.throw(err);
-//         }  else {
-//           fut.return(res)
-//         }
-//       });
-//       async(bound_callback);
-//       fut.wait();
-//     }
-//   });
-// }
- 
 
 
 
