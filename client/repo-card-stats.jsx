@@ -9,8 +9,7 @@ RepoCardStats = React.createClass({
 
 	render(){
 
-		console.log(this.props)
-
+		
 		return(
 				<div className="row stats-container">
 					<div className="col-md-2"></div>

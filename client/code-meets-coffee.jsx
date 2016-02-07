@@ -10,7 +10,12 @@ if(Meteor.isClient) {
 
 	Meteor.call("authenticateGitHub");
 	
-	Meteor.call("searchRepos","javascript","stars","desc");
+	// Meteor.call("searchRepos","javascript","stars","desc");
+
+	Meteor.call("getRandomRepo","javascript","stars","desc",function(err,res){
+		
+
+	});
 
 
 	Meteor.startup(function(){
