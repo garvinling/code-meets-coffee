@@ -12,10 +12,7 @@ if(Meteor.isClient) {
 	
 	// Meteor.call("searchRepos","javascript","stars","desc");
 
-	Meteor.call("getRandomRepo","javascript","stars","desc",function(err,res){
-		
-
-	});
+	Meteor.call("getRandomRepo","javascript","stars","desc");
 
 
 	Meteor.startup(function(){
