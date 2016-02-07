@@ -11,23 +11,27 @@ App = React.createClass({
 	getMeteorData(){
 
 		return {
-
-			test : "lol"
+			repoCards : Repos.find({}).fetch()			
 		}	
-
-
 	},
 
 	renderCurrentRepo(){
 
-		return <RepoCard />;
+		return this.data.repoCards.map((repo) => {
+
+			return <RepoCard key={repo._id} repo={repo}/>;
+
+		});
+
 	},
 
 
 	render(){
+
 		return (
 			<div className="main-container">
 				{this.renderCurrentRepo()}
+				{this.data.repo}
 			</div>
 
 		);

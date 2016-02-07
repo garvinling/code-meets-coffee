@@ -8,10 +8,17 @@ Repos = new Mongo.Collection("repos");
 
 Future = Npm.require('fibers/future');
 
+Meteor.publish('repos',function(){
+
+	return Repos.find();
+
+});
+
+
 
 Meteor.methods({
 
-	authenticateGitHub : () => {
+	authenticateGitHub : function(){
 
 
 		github.authenticate({
@@ -26,9 +33,39 @@ Meteor.methods({
 
 	},
 
-	searchRepos : (keyword , sortBy , order) => {
+	searchRepos : function(keyword , sortBy , order){
 			
 			var fut = new Future();
+			var boundCallback = Meteor.bindEnvironment(function(err,res){
+
+					if(err) {
+						fut.return(err);
+					} else {
+
+						var repoObj = res.items[0];
+
+						var repoToPush = {
+
+							name : repoObj.name,
+							link : repoObj.html_url,
+							stars : repoObj.stargazers_count,
+							forks : repoObj.forks_count,
+							watchers : repoObj.watchers_count,
+							size : repoObj.size,
+							rank : repoObj.score,
+							description : repoObj.description,
+							image : repoObj.owner.avatar_url
+
+						}
+
+						Repos.upsert({name:repoObj.name},repoToPush);
+
+						fut.return(res);
+					}
+
+
+			});
+
 
 			github.search.repos({
 
@@ -38,37 +75,31 @@ Meteor.methods({
 				per_page:1
 
 
-			}, function(err,res){
+			}, boundCallback);
 
-				if(err) {
-					fut.return(err);
-				} else {
-
-					fut.return(res.items);
-				}
-
-
-			});
-			return fut.wait();
+		return fut.wait();
 	}
-
-
-	// 		name : repoObj.name,
-	// 		link : repoObj.html_url,
-	// 		stars : repoObj.stargazers_count,
-	// 		forks : repoObj.forks_count,
-	// 		watchers : repoObj.watchers_count,
-	// 		size : repoObj.size,
-	// 		rank : repoObj.score,
-	// 		description : repoObj.description,
-	// 		image : repoObj.owner.avatar_url
-
 
 });
 
 
 
-
+//  Meteor.methods({
+//     callAsync: function () {
+//       var fut = new Future();
+//       var bound_callback = Meteor.bindEnvironment(function (err, res) {
+//         if(err) {
+//           fut.throw(err);
+//         }  else {
+//           fut.return(res)
+//         }
+//       });
+//       async(bound_callback);
+//       fut.wait();
+//     }
+//   });
+// }
+ 
 
 
 
