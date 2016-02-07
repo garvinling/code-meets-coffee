@@ -4,7 +4,11 @@ App = React.createClass({
 
 	getInitialState(){
 
-		return null;
+		return { 
+
+			currentIndex : 8 //will increment has the user swipes. 
+
+		}
 
 	},
 
@@ -17,11 +21,19 @@ App = React.createClass({
 
 	renderCurrentRepo(){
 
-		return this.data.repoCards.map((repo) => {
+		var currentRepo = this.data.repoCards[this.state.currentIndex];
 
-			return <RepoCard key={repo._id} repo={repo}/>;
+		if(currentRepo !== undefined) {
 
-		});
+			console.log(currentRepo)
+			return <RepoCard key={currentRepo._id} repo={currentRepo} />;
+		}
+
+		// return this.data.repoCards[this.state.currentIndex].map((repo) => {
+
+		// 	return <RepoCard key={repo._id} repo={repo}/>;
+
+		// });
 
 	},
 
