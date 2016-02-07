@@ -10,12 +10,9 @@ if(Meteor.isClient) {
 
 	Meteor.call("authenticateGitHub");
 	
-	// Meteor.call("searchRepos","javascript","stars","desc");
+	Meteor.call("searchRepos","javascript","stars","desc");   //use for test / prototype
 
-	Meteor.call("getRandomRepo","javascript","stars","desc",function(err,res){
-		
-
-	});
+	// Meteor.call("getRandomRepo","javascript","stars","desc");  //live call 
 
 
 	Meteor.startup(function(){

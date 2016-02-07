@@ -18,7 +18,7 @@ Meteor.publish('repos',function(){
 const NUM_PER_PAGE = 40;
 const MAX_PAYLOAD_LENGTH = 1000;
 const NUM_PAGES = (MAX_PAYLOAD_LENGTH / NUM_PER_PAGE);
-const NUM_REPOS_TO_QUEUE = 10;
+const NUM_REPOS_TO_QUEUE = 5;
 
 var getRandomPageNum = function(min, max){
 
@@ -71,6 +71,7 @@ Meteor.methods({
 
 				}
 				Repos.update({name:repoObj.name},repoToPush,{upsert:true});
+				
 				fut.return(res);
 			}
 		});
@@ -108,9 +109,10 @@ Meteor.methods({
 					//TODO: handle duplicates.
 					for(var i = 0 ; i < NUM_REPOS_TO_QUEUE ; i++) {
 
-						var randomIndex = getRandomPageNum(0,res.items.length);
-						var repoObj     = res.items[randomIndex];
 
+						var randomIndex = getRandomPageNum(0,res.items.length -1 );
+						var repoObj     = res.items[randomIndex];
+						console.log('Rndom index: ' + randomIndex);
 						var repoToPush = {
 
 							name : repoObj.name,
@@ -130,7 +132,7 @@ Meteor.methods({
 						Repos.update({name:repoObj.name},repoToPush,{upsert:true});
 
 
-						console.log('Queueing: ' + repoToPush.name);
+						// console.log('Queueing: ' + repoToPush.name);
 					}
 
 		

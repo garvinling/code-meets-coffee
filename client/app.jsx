@@ -6,7 +6,7 @@ App = React.createClass({
 
 		return { 
 
-			currentIndex : 8 //will increment has the user swipes. 
+			currentIndex : 1 //will increment has the user swipes. 
 
 		}
 
@@ -15,7 +15,7 @@ App = React.createClass({
 	getMeteorData(){
 
 		return {
-			repoCards : Repos.find().fetch()		
+			repoCards    : Repos.find().fetch()	
 		}	
 	},
 
@@ -25,18 +25,27 @@ App = React.createClass({
 
 		if(currentRepo !== undefined) {
 
-			console.log(currentRepo)
-			return <RepoCard key={currentRepo._id} repo={currentRepo} />;
+			return <RepoCard key={currentRepo._id} repo={currentRepo} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
 		}
-
-		// return this.data.repoCards[this.state.currentIndex].map((repo) => {
-
-		// 	return <RepoCard key={repo._id} repo={repo}/>;
-
-		// });
 
 	},
 
+	handleSwipeLeft() {
+		console.log('Swiped Left');
+		this.state.currentIndex++;
+		//dont do defined action
+		this.forceUpdate();
+
+	},
+
+
+	handleSwipeRight() {
+
+		console.log('Swiped Right');
+		this.state.currentIndex++;
+		//do defined action
+		this.forceUpdate();        
+	},
 
 	render(){
 

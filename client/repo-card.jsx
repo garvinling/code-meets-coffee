@@ -2,7 +2,23 @@ RepoCard = React.createClass({
 
 	propTypes : {
 
-		repo : React.PropTypes.object.isRequired
+		repo : React.PropTypes.object.isRequired,
+		handleSwipeLeft : React.PropTypes.func.isRequired,
+		handleSwipeRight : React.PropTypes.func.isRequired
+
+	},
+
+
+	handleSwipeLeft() { 
+		
+		this.props.handleSwipeLeft();
+	},
+
+	handleSwipeRight() {
+
+
+
+		this.props.handleSwipeRight();
 	},
 
 	render(){
@@ -14,9 +30,7 @@ RepoCard = React.createClass({
 
 		};
 
-
 		return(
-
 
 				<div className="card-container">
 						
@@ -25,24 +39,27 @@ RepoCard = React.createClass({
 					<h1 className="repo-title">{this.props.repo.name}</h1>
 
 					<RepoCardStats repo={this.props.repo}/>
-					
-
+				
 					<div className="description-container">{this.props.repo.description}</div>
+
+
+					<div className="card-button-group row">
+						<div className="col-xs-6 nope">
+							<button className="btn btn-danger nope-button" onClick={this.handleSwipeLeft}>
+								<span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							</button>
+						</div>
+						<div className="col-xs-6 yep">
+							<button className="btn btn-success yep-button" onClick={this.handleSwipeRight}>
+								<span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							</button>
+						</div>
+					</div>
 				</div>
 
 		);
 	}
 
 });
-					// <img src={this.props.repo.image}/>
+					
 
-
-	// 		name : repoObj.name,
-	// 		link : repoObj.html_url,
-	// 		stars : repoObj.stargazers_count,
-	// 		forks : repoObj.forks_count,
-	// 		watchers : repoObj.watchers_count,
-	// 		size : repoObj.size,
-	// 		rank : repoObj.score,
-	// 		description : repoObj.description,
-	// 		image : repoObj.owner.avatar_url
