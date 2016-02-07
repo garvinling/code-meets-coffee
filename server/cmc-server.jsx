@@ -25,11 +25,59 @@ var getRandomPageNum = function(min, max){
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 
 }
+ 
+var getReadMe = function(username , repo) {
+
+		var fut = new Future();
+		var arrayToParse = [];
+
+
+
+		var getReadMeCallback = function(err, res){
+
+			if(err) {
+					
+				fut.return(err);
+			} else {
+
+				fut.return(res);
+			}
+
+		};
+
+
+		github.repos.getReadme({
+				headers : {
+
+					"Accept": "application/vnd.github-blob.html"
+				},
+				user :  username,
+				repo :  repo
+
+		},getReadMeCallback);
+
+		return fut.wait();
+
+	}
+
+
+
+var getReadMeAndPushRepo = function(repoToPush){
+
+	Repos.update({name:repoToPush.name},repoToPush,{upsert:true});
+
+
+}
+
+
+
+
 
 
 
 
 Meteor.methods({
+
 
 	authenticateGitHub : function(){
 
@@ -48,7 +96,7 @@ Meteor.methods({
 			
 		var fut = new Future();
 		var boundCallback = Meteor.bindEnvironment(function(err,res){
-
+		tester();
 			if(err) {
 				fut.return(err);
 			} else {
@@ -70,6 +118,8 @@ Meteor.methods({
 					image : repoObj.owner.avatar_url
 
 				}
+
+
 				Repos.update({name:repoObj.name},repoToPush,{upsert:true});
 				
 				fut.return(res);
@@ -110,9 +160,10 @@ Meteor.methods({
 					for(var i = 0 ; i < NUM_REPOS_TO_QUEUE ; i++) {
 
 
+
 						var randomIndex = getRandomPageNum(0,res.items.length -1 );
 						var repoObj     = res.items[randomIndex];
-						console.log('Rndom index: ' + randomIndex);
+
 						var repoToPush = {
 
 							name : repoObj.name,
@@ -128,18 +179,13 @@ Meteor.methods({
 							image : repoObj.owner.avatar_url
 
 						}
+						getReadMeAndPushRepo(repoToPush)
 
-						Repos.update({name:repoObj.name},repoToPush,{upsert:true});
-
-
-						// console.log('Queueing: ' + repoToPush.name);
+						// Repos.update({name:repoObj.name},repoToPush,{upsert:true});
 					}
 
-		
-					// Repos.update({name:repoObj.name},repoToPush,{upsert:true});
-					
-					fut.return(repoObj);
-				}
+				fut.return(repoObj);
+		}
 
 		});
 
@@ -159,8 +205,41 @@ Meteor.methods({
 	
 	return fut.wait();
 
-	}
+	},
 
+	getReadMe : function(url) {
+
+		var fut = new Future();
+		var arrayToParse = [];
+
+
+
+		var getReadMeCallback = function(err, res){
+
+			if(err) {
+					
+				fut.return(err);
+			} else {
+
+				fut.return(res);
+			}
+
+		};
+
+
+		github.repos.getReadme({
+				headers : {
+
+					"Accept": "application/vnd.github-blob.html"
+				},
+				user : 'FreeCodeCamp',
+				repo : 'FreeCodeCamp'
+
+		},getReadMeCallback);
+
+		return fut.wait();
+
+	}
 
 
 
