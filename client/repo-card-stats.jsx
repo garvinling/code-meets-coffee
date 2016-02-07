@@ -13,10 +13,12 @@ RepoCardStats = React.createClass({
 
 		return(
 				<div className="row stats-container">
-					<div className="col-md-2 stars"> 🌟 {this.props.repo.stars}</div>
+					<div className="col-md-2"></div>
+					<div className="col-md-2 stars">  🌟 {this.props.repo.stars}</div>
 					<div className="col-md-2 rank">  🏆 #{this.props.repo.rank}</div>
-					<div className="col-md-2 rank">  👀  {this.props.repo.watchers}</div>
-					<div className="col-md-2 rank">Rank: #{this.props.repo.rank}</div>
+					<div className="col-md-2 forks">  🍴  {this.props.repo.forks}</div>
+					<div className="col-md-2 size">  💾  {this.props.repo.size}</div>
+					<div className="col-md-2"> </div>
 
 
 
