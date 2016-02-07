@@ -25,22 +25,26 @@ App = React.createClass({
 
 		if(currentRepo !== undefined) {
 
-			return <RepoCard key={currentRepo._id} repo={currentRepo} />;
+			return <RepoCard key={currentRepo._id} repo={currentRepo} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
 		}
-
-		// return this.data.repoCards[this.state.currentIndex].map((repo) => {
-
-		// 	return <RepoCard key={repo._id} repo={repo}/>;
-
-		// });
 
 	},
 
-	swipeRight() {
+	handleSwipeLeft() {
+		console.log('Swiped Left');
+		this.state.currentIndex++;
+		//dont do defined action
+		this.forceUpdate();
+
+	},
+
+
+	handleSwipeRight() {
 
 		console.log('Swiped Right');
 		this.state.currentIndex++;
-		this.forceUpdate();
+		//do defined action
+		this.forceUpdate();        
 	},
 
 	render(){
@@ -48,7 +52,6 @@ App = React.createClass({
 		return (
 			<div className="main-container">
 				{this.renderCurrentRepo()}
-				<button className="btn btn-primary" onClick={this.swipeRight}>Swipe Right </button>
 			</div>
 
 		);
