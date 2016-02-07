@@ -7,8 +7,12 @@ if(Meteor.isClient) {
 
 	});
 
+
 	Meteor.call("authenticateGitHub");
 	
+	Meteor.call("searchRepos","javascript","stars","desc");
+
+
 	Meteor.startup(function(){
 
 		ReactDOM.render(<App /> , document.getElementById('render-target'));

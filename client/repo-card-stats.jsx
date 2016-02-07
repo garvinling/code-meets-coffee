@@ -1,23 +1,25 @@
-RepoCard = React.createClass({
+RepoCardStats = React.createClass({
 
 	propTypes : {
 
 		repo : React.PropTypes.object.isRequired
 	},
 
+
+
 	render(){
 
-		return(
-				<div className="card-container">
-					
-					<h1 className="repo-title">{this.props.repo.name}</h1>
-					
-					<img src={this.props.repo.image}/>
-						
-					<RepoCardStats repo={this.props.repo}/>
-					
+		console.log(this.props)
 
-					<p>Description: {this.props.repo.description}</p>
+		return(
+				<div className="row stats-container">
+					<div className="col-md-2 stars"> 🌟 {this.props.repo.stars}</div>
+					<div className="col-md-2 rank">  🏆 #{this.props.repo.rank}</div>
+					<div className="col-md-2 rank">  👀  {this.props.repo.watchers}</div>
+					<div className="col-md-2 rank">Rank: #{this.props.repo.rank}</div>
+
+
+
 				</div>
 
 		);

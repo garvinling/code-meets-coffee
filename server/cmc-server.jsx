@@ -36,6 +36,7 @@ Meteor.methods({
 	searchRepos : function(keyword , sortBy , order){
 			
 			var fut = new Future();
+
 			var boundCallback = Meteor.bindEnvironment(function(err,res){
 
 					if(err) {
@@ -57,9 +58,7 @@ Meteor.methods({
 							image : repoObj.owner.avatar_url
 
 						}
-
-						Repos.upsert({name:repoObj.name},repoToPush);
-
+						Repos.update({name:repoObj.name},repoToPush,{upsert:true});
 						fut.return(res);
 					}
 
