@@ -6,7 +6,7 @@ App = React.createClass({
 
 		return { 
 
-			currentIndex : 1 //will increment has the user swipes. 
+			currentIndex : 0 
 
 		}
 
@@ -15,35 +15,60 @@ App = React.createClass({
 	getMeteorData(){
 
 		return {
-			repoCards    : Repos.find().fetch()	
+			repoCards  : Repos.find().fetch()
 		}	
 	},
 
+
 	renderCurrentRepo(){
 
-		var currentRepo = this.data.repoCards[this.state.currentIndex];
+		var repoFromAPI  = this.data.repoCards[this.state.currentIndex];
 
-		if(currentRepo !== undefined) {
+		if(repoFromAPI !== undefined) {
 
-			return <RepoCard key={currentRepo._id} repo={currentRepo} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
+			return <RepoCard key={repoFromAPI._id} repo={repoFromAPI} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
 		}
 
+
+		return <h1>Loading...</h1>;
+	},
+
+
+	getMoreRepos() {
+
+		Meteor.call("getReposFromAPI","javascript","stars","desc",false,function(err,res){
+				
+				console.log('Done retrieving repos.');
+
+		});   
 	},
 
 	handleSwipeLeft() {
-		console.log('Swiped Left');
+
+		var length = this.data.repoCards.length;
 		this.state.currentIndex++;
-		//dont do defined action
+
+		if(length - this.state.currentIndex === 15) {
+			
+			this.getMoreRepos();
+		
+		}
+
 		this.forceUpdate();
 
 	},
 
 
 	handleSwipeRight() {
-
-		console.log('Swiped Right');
+		
+		var length = this.data.repoCards.length;
 		this.state.currentIndex++;
-		//do defined action
+
+		if(length - this.state.currentIndex === 15) {
+			
+			this.getMoreRepos();
+
+		}
 		this.forceUpdate();        
 	},
 
