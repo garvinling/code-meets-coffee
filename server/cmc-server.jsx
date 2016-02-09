@@ -1,13 +1,21 @@
 
+const NUM_PER_PAGE       = 100;
+const MAX_PAYLOAD_LENGTH = 1000;
+const NUM_PAGES          = (MAX_PAYLOAD_LENGTH / NUM_PER_PAGE);
+const NUM_REPOS_TO_QUEUE = 100;
+
+
+SavedRepos    = new Mongo.Collection('fastrepos');
+Repos         = new Mongo.Collection('repos');
+
+Future = Npm.require('fibers/future');
 
 var github = new GitHub({
 	version:"3.0.0",
 	timeout:5000
 });
 
-Repos = new Mongo.Collection("repos");
 
-Future = Npm.require('fibers/future');
 
 Meteor.publish('repos',function(){
 
@@ -15,10 +23,18 @@ Meteor.publish('repos',function(){
 
 });
 
-const NUM_PER_PAGE = 40;
-const MAX_PAYLOAD_LENGTH = 1000;
-const NUM_PAGES = (MAX_PAYLOAD_LENGTH / NUM_PER_PAGE);
-const NUM_REPOS_TO_QUEUE = 5;
+
+
+Meteor.publish('fastrepos',function(){
+
+
+	return SavedRepos.find();
+
+
+})
+
+
+
 
 var getRandomPageNum = function(min, max){
 
@@ -92,104 +108,106 @@ Meteor.methods({
 
 	},
 
-	searchRepos : function(keyword , sortBy , order){
-			
-		var fut = new Future();
-		var boundCallback = Meteor.bindEnvironment(function(err,res){
-		tester();
+	cacheRepos : function(keyword , sortBy , order){
+		
+		var cacheReposCallback = Meteor.bindEnvironment(function(err,res){
 			if(err) {
 				fut.return(err);
 			} else {
 
-				var repoObj = res.items[0];
+				for(var i = 0 ; i < 40 ; i++) {
 
-				var repoToPush = {
+					var randomIndex = getRandomPageNum(0,res.items.length -1 );
+					var repoObj     = res.items[randomIndex];
 
-					name : repoObj.name,
-					link : repoObj.html_url,
-					stars : repoObj.stargazers_count,
-					forks : repoObj.forks_count,
-					watchers : repoObj.watchers_count,
-					size : repoObj.size,
-					rank : repoObj.score,
-					description : repoObj.description,
-					issues : repoObj.open_issues_count,
-					language : repoObj.language,
-					image : repoObj.owner.avatar_url
+					var repoToPush = {
+
+						name : repoObj.name,
+						link : repoObj.html_url,
+						stars : repoObj.stargazers_count,
+						forks : repoObj.forks_count,
+						watchers : repoObj.watchers_count,
+						size : repoObj.size,
+						rank : repoObj.score,
+						description : repoObj.description,
+						issues : repoObj.open_issues_count,
+						language : repoObj.language,
+						image : repoObj.owner.avatar_url
+
+					}
+
+
+					SavedRepos.update({name:repoObj.name},repoToPush,{upsert:true},function(err,res){
+
+
+					});
 
 				}
-
-
-				Repos.update({name:repoObj.name},repoToPush,{upsert:true});
 				
-				fut.return(res);
 			}
 		});
 
 		github.search.repos({
-
-			q : 'language:'+keyword , 
+		
+			q : 'language:' + keyword , 
 			sort : sortBy , 
-			order: 'desc',
-			per_page:1,
-			page:1
+			order : 'desc',
+			per_page: NUM_PER_PAGE,
+			page: getRandomPageNum(1,NUM_PAGES)
 
+		}, cacheReposCallback);
 
-		}, boundCallback);
-
-	return fut.wait();
 	},
 
-	getRandomRepo : function(keyword , sortBy , order) {
+	getReposFromAPI: function(keyword , sortBy , order , destroy) {
 
+		if(destroy) {
 
-		Repos.remove({});  //clear the db before getting new batch of repos
+			Repos.remove({});  //clear the db before getting new batch of repos
+
+		}
 
 		var fut = new Future();
 
 
 		var getRandomRepoCallback = Meteor.bindEnvironment(function(err,res){
 
-				if(err) {
-					
-					fut.return(err);
+			if(err) {
+				
+				fut.return(err);
 
-				} else {
+			} else {
 
-					//TODO: handle duplicates.
-					for(var i = 0 ; i < NUM_REPOS_TO_QUEUE ; i++) {
+				for(var i = 0 ; i < NUM_REPOS_TO_QUEUE ; i++) {
 
+					var randomIndex = getRandomPageNum(0,res.items.length -1 );
+					var repoObj     = res.items[randomIndex];
 
+					var repoToPush = {
 
-						var randomIndex = getRandomPageNum(0,res.items.length -1 );
-						var repoObj     = res.items[randomIndex];
+						name : repoObj.name,
+						link : repoObj.html_url,
+						stars : repoObj.stargazers_count,
+						forks : repoObj.forks_count,
+						watchers : repoObj.watchers_count,
+						size : repoObj.size,
+						rank : repoObj.score,
+						description : repoObj.description,
+						issues : repoObj.open_issues_count,
+						language : repoObj.language,
+						image : repoObj.owner.avatar_url
 
-						var repoToPush = {
-
-							name : repoObj.name,
-							link : repoObj.html_url,
-							stars : repoObj.stargazers_count,
-							forks : repoObj.forks_count,
-							watchers : repoObj.watchers_count,
-							size : repoObj.size,
-							rank : repoObj.score,
-							description : repoObj.description,
-							issues : repoObj.open_issues_count,
-							language : repoObj.language,
-							image : repoObj.owner.avatar_url
-
-						}
-						getReadMeAndPushRepo(repoToPush)
-
-						// Repos.update({name:repoObj.name},repoToPush,{upsert:true});
 					}
+					getReadMeAndPushRepo(repoToPush)
+
+					// Repos.update({name:repoObj.name},repoToPush,{upsert:true});
+				}
 
 				fut.return(repoObj);
-		}
+			
+			}
 
 		});
-
-
 
 
 		github.search.repos({
@@ -205,44 +223,7 @@ Meteor.methods({
 	
 	return fut.wait();
 
-	},
-
-	getReadMe : function(url) {
-
-		var fut = new Future();
-		var arrayToParse = [];
-
-
-
-		var getReadMeCallback = function(err, res){
-
-			if(err) {
-					
-				fut.return(err);
-			} else {
-
-				fut.return(res);
-			}
-
-		};
-
-
-		github.repos.getReadme({
-				headers : {
-
-					"Accept": "application/vnd.github-blob.html"
-				},
-				user : 'FreeCodeCamp',
-				repo : 'FreeCodeCamp'
-
-		},getReadMeCallback);
-
-		return fut.wait();
-
 	}
-
-
-
 });
 
 
