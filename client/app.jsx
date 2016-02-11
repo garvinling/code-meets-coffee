@@ -30,7 +30,14 @@ App = React.createClass({
 		}
 
 
-		return <h1>Loading...</h1>;
+		return (
+
+				<div className="loading-container">
+					<img src="/loading-1.gif"/>
+				</div>
+
+
+			);
 	},
 
 
@@ -76,6 +83,7 @@ App = React.createClass({
 
 		return (
 			<div className="main-container">
+
 				{this.renderCurrentRepo()}
 			</div>
 
