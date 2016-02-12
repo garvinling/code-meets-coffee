@@ -37,22 +37,21 @@ RepoCard = React.createClass({
 			
 					<div className="repo-bg-image" style={styles}></div>			
 					<div className="title-container"><h1 className="repo-title">{this.props.repo.name}</h1></div>
-					<div className="row description-stats">
-						<div className="col-md-6">
-							<div className="description-container">{this.props.repo.description}</div>
-						</div>
-						<div className="col-md-6">
-							<RepoCardStats repo={this.props.repo}/>
-						</div>
-					</div>
-				
+					<RepoCardStats repo={this.props.repo}/>
+
+					<div className="description-container">{this.props.repo.description}</div>
+
+
 					<div className="card-button-group row">
-						<h4>Would you commit this?</h4>
 						<div className="col-xs-6 nope">
-							<button className="btn btn-danger nope-button" onClick={this.handleSwipeLeft}>NAW</button>
+							<button className="btn btn-danger nope-button hvr-grow" onClick={this.handleSwipeLeft}>
+								<span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							</button>
 						</div>
 						<div className="col-xs-6 yep">
-							<button className="btn btn-success yep-button" onClick={this.handleSwipeRight}>YA</button>
+							<button className="btn btn-success yep-button hvr-grow" onClick={this.handleSwipeRight}>
+								<span className="glyphicon glyphicon-star" aria-hidden="true"></span>
+							</button>
 						</div>
 					</div>
 				</div>

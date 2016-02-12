@@ -8,7 +8,7 @@
 	top:0;
 	left:0;
 	background-color:$dark-gray;
-
+font-family: 'Source Sans Pro', sans-serif;
 
 	img { 
 
@@ -25,5 +25,17 @@
 		border: 2px solid #fff;
 
 	}
+
+	h4 { 
+
+		letter-spacing: 3px;
+	}
+
+
+	.title {
+
+		padding-top:5px;
+	}
+
 
 }
