@@ -1,11 +1,17 @@
 
 Repos = new Mongo.Collection("repos");
 SavedRepos = new Mongo.Collection("fastrepos");
-Meteor.call("authenticateGitHub");
 
 if(Meteor.isClient) {	
 
+
 		Meteor.startup(function(){
+
+		
+			if(Meteor.user() !== null) {
+				Meteor.call("authenticate");
+			}
+
 
 			Meteor.subscribe('repos',function(){
 
@@ -14,14 +20,9 @@ if(Meteor.isClient) {
 			});
 
 
-			Meteor.call("getReposFromAPI","javascript","stars","desc",true,function(err,res){
-				
-
-			});   
-
-
-
+			// Meteor.call("getReposFromAPI","javascript","stars","desc",true,function(err,res){});   
 		});
+
 
 
 }
