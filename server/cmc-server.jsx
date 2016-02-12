@@ -5,6 +5,24 @@ const NUM_PAGES          = (MAX_PAYLOAD_LENGTH / NUM_PER_PAGE);
 const NUM_REPOS_TO_QUEUE = 100;
 
 
+var github_access_token = "";
+var github_scope = "";
+
+
+ServiceConfiguration.configurations.remove({
+  service: "github"
+});
+
+ServiceConfiguration.configurations.insert({
+  service: "github",
+  clientId: Meteor.settings.public.GITHUB_CLIENT_ID,
+  secret: Meteor.settings.private.GITHUB_CLIENT_SECRET,
+  loginStyle: "redirect"
+});
+
+
+
+
 SavedRepos    = new Mongo.Collection('fastrepos');
 Repos         = new Mongo.Collection('repos');
 
@@ -12,7 +30,7 @@ Future = Npm.require('fibers/future');
 
 var github = new GitHub({
 	version:"3.0.0",
-	timeout:5000
+	timeout:9000
 });
 
 
@@ -30,8 +48,7 @@ Meteor.publish('fastrepos',function(){
 
 	return SavedRepos.find();
 
-
-})
+});
 
 
 
@@ -93,19 +110,12 @@ var getReadMeAndPushRepo = function(repoToPush){
 
 
 Meteor.methods({
-
-
-	authenticateGitHub : function(){
-
+	authenticate : function() {
 
 		github.authenticate({
-
-			type : "basic",
-			username: Meteor.settings.private.GITHUB_USERNAME,
-			password: Meteor.settings.private.GITHUB_PW
-
+		    type: "oauth",
+		    token: Meteor.user().services.github.accessToken
 		});
-
 	},
 
 	cacheRepos : function(keyword , sortBy , order){
@@ -160,14 +170,13 @@ Meteor.methods({
 	},
 
 	getReposFromAPI: function(keyword , sortBy , order , destroy) {
+		var fut = new Future();
 
 		if(destroy) {
 
 			Repos.remove({});  //clear the db before getting new batch of repos
 
 		}
-
-		var fut = new Future();
 
 
 		var getRandomRepoCallback = Meteor.bindEnvironment(function(err,res){
@@ -198,13 +207,17 @@ Meteor.methods({
 						image : repoObj.owner.avatar_url
 
 					}
-					getReadMeAndPushRepo(repoToPush)
 
-					// Repos.update({name:repoObj.name},repoToPush,{upsert:true});
-				}
+					Repos.update({name:repoToPush.name},repoToPush,{upsert:true},function(err,data){
+							
+
+
+					});
+
+				}			
 
 				fut.return(repoObj);
-			
+
 			}
 
 		});
@@ -223,7 +236,65 @@ Meteor.methods({
 	
 	return fut.wait();
 
+	},
+
+	authorizeCode : function(userCode) {
+
+		var fut = new Future();
+
+		HTTP.call( 'POST', 'https://github.com/login/oauth/access_token', {
+
+		  headers: {
+					"Accept": "application/json"
+		  },
+
+		  data: {
+		    "client_id": Meteor.settings.public.GITHUB_CLIENT_ID,
+		    "client_secret": Meteor.settings.private.GITHUB_CLIENT_SECRET,
+		    "code": userCode
+		  }
+		}, function( error, response ) {
+		  
+		  if ( error ) {
+		    console.log( error );
+		    fut.return(error);
+		  } else {
+
+		  	var content = JSON.parse(response.content);
+		  	github_access_token = content.access_token;
+		  	github_scope = content.scope;
+
+		  	fut.return('ok');
+
+		  }
+
+		});
+
+		return fut.wait();
+	},
+
+	starRepo : function(repoOwner,repoName) {
+		
+		var fut = new Future();
+
+		github.repos.star({
+
+			user : repoOwner , 
+			repo : repoName 
+
+		},function(err,res){
+
+			if(err) {
+				fut.return(err);
+			} else {
+				fut.return(res);
+			}
+
+		});
+
+		return fut.wait();
 	}
+
 });
 
 

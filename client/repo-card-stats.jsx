@@ -11,6 +11,7 @@ RepoCardStats = React.createClass({
 					<div className ="col-md-4 forks">    🍴  <br/>{this.props.repo.forks}</div>
 					<div className ="col-md-4 issues">   ❗ <br/> {this.props.repo.issues}</div>
 				</div>
+				
 
 		);
 	}

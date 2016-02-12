@@ -83,6 +83,7 @@ App = React.createClass({
 
 		return (
 			<div className="main-container">
+			<HeaderBar />
 
 				{this.renderCurrentRepo()}
 			</div>
