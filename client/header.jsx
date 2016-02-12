@@ -51,12 +51,17 @@ HeaderBar = React.createClass({
 		return (
 
 			<div className="headerBar">
-				{ Meteor.user() ? 
-					<button onClick={this.state.onclick} className="btn btn-primary">{this.state.buttonText}<img src="/github-256.png"/></button>:<button onClick={this.state.onclick} className="btn btn-primary">{this.state.buttonText}<img src="/github-256.png"/></button>
+				<div className="row">
+					<div className="col-xs-5">
+						{ Meteor.user() ? 
+							<button onClick={this.state.onclick} className="btn btn-primary">{this.state.buttonText}<img src="/github-256.png"/></button>:<button onClick={this.state.onclick} className="btn btn-primary">{this.state.buttonText}<img src="/github-256.png"/></button>
 
-				}
-				
-
+						}
+					</div>
+					<div className="col-xs-7 title">
+					<h4>&lt;CODE/&gt; MEETS COFFEE</h4>
+					</div>
+				</div>
 			 </div>
 
 
