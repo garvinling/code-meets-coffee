@@ -3,12 +3,16 @@ RepoCard = React.createClass({
 
 
 	getInitialState() {
-		console.log(this.props);
 		var initialCardClass = classNames('card-container');
 
-		if(this.props.cardPosition === 2) {
+		if(this.props.cardPosition === 1) {
 			
-			initialCardClass = classNames('card-container' , 'underCard');
+			initialCardClass = classNames('card-container' , 'card2');
+		
+		} else if(this.props.cardPosition === 2) {
+
+			intiialCardClass = classNames('card-container', 'card3')
+
 		}
 
 	    return {
@@ -28,6 +32,13 @@ RepoCard = React.createClass({
 
 
 	handleSwipeLeft() { 
+
+
+		if(this.props.cardPosition === 2) {
+
+			console.log('swiped undercard')
+		}
+
 
 		this.setState({ containerClass : classNames('card-container','animated','rotateOutUpLeft')});
         var that = this;
