@@ -8,7 +8,8 @@ App = React.createClass({
 
 			currentIndex : 0 ,
 			aboutVisible : false,
-			animationSelected : 'hideAbout'
+			animationSelected : 'hideAbout',
+			lastCommand  : '' 
 
 		}
 
@@ -25,7 +26,6 @@ App = React.createClass({
 	renderCurrentRepo(){
 
 		var repoFromAPI  = this.data.repoCards[this.state.currentIndex];
-
 		if(repoFromAPI !== undefined) {
 
 			return <RepoCard key={repoFromAPI._id} repo={repoFromAPI} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
@@ -42,6 +42,16 @@ App = React.createClass({
 			);
 	},
 
+	renderNextRepo() {
+
+		var repoFromAPI  = this.data.repoCards[this.state.currentIndex + 1];
+		if(repoFromAPI !== undefined) {
+
+			return <RepoCard key={repoFromAPI._id} repo={repoFromAPI} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
+		}
+		
+	},
+
 
 	getMoreRepos() {
 
@@ -55,30 +65,27 @@ App = React.createClass({
 	handleSwipeLeft() {
 
 		var length = this.data.repoCards.length;
-		this.state.currentIndex++;
+		this.setState({currentIndex : this.state.currentIndex + 1});
+		//this.setState({lastCommand  : 'nop'});
+
 
 		if(length - this.state.currentIndex === 15) {
 			
 			this.getMoreRepos();
-		
 		}
-
-		this.forceUpdate();
-
 	},
 
 
 	handleSwipeRight() {
 		
 		var length = this.data.repoCards.length;
-		this.state.currentIndex++;
+		this.setState({currentIndex : this.state.currentIndex + 1});
+		//this.setState({lastCommand  : 'yep'});
 
 		if(length - this.state.currentIndex === 15) {
 			
 			this.getMoreRepos();
-
 		}
-		this.forceUpdate();        
 	},
 
 	toggleAbout() {
@@ -97,15 +104,13 @@ App = React.createClass({
 	},
 
 	render(){
-		console.log(this.state.animationSelected);
 		return (
 			<div className="main-container">
 			<HeaderBar toggleAbout={this.toggleAbout} />
 			<About visible={this.state.aboutVisible} classFromApp={classNames('about-container','animated',this.state.animationSelected)}/> 
-
-	
-
-				{this.renderCurrentRepo()}
+				/**TODO: Need to render or queue the next card. **/
+				{this.renderCurrentRepo()}				
+				{this.renderNextRepo()}
 			</div>
 
 		);

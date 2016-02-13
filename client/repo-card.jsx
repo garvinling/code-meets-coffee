@@ -1,5 +1,12 @@
 RepoCard = React.createClass({
 
+	getInitialState() {
+	    return {
+	        containerClass : classNames('card-container')  
+	    };
+	},
+
+
 	propTypes : {
 
 		repo : React.PropTypes.object.isRequired,
@@ -10,8 +17,15 @@ RepoCard = React.createClass({
 
 
 	handleSwipeLeft() { 
-		
-		this.props.handleSwipeLeft();
+
+			this.setState({ containerClass : classNames('card-container','animated','rotateOutUpLeft')});
+        var that = this;
+        setTimeout(function() {
+			that.props.handleSwipeLeft();
+        }, 900);
+    
+
+
 	},
 
 	handleSwipeRight() {
@@ -23,22 +37,24 @@ RepoCard = React.createClass({
 			Meteor.call("starRepo",userName,repoName);
 
 		}
-
-		this.props.handleSwipeRight();
+		this.setState({ containerClass : classNames('card-container','animated','rotateOutUpRight')});
+        var that = this;
+        setTimeout(function() {
+			that.props.handleSwipeRight();
+        }, 900);
 	},
 
 	render(){
 
 		var styles = { 
-
 			backgroundImage: "url(" + this.props.repo.image + ")"
-
-
 		};
+
+
+
 		return(
-				<div className="card-container">
-					
-			
+				<div className={this.state.containerClass}>
+
 					<div className="repo-bg-image" style={styles}></div>			
 					<div className="title-container"><h1 className="repo-title">{this.props.repo.name}</h1></div>
 					<RepoCardStats repo={this.props.repo}/>
