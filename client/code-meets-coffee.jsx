@@ -6,6 +6,8 @@ if(Meteor.isClient) {
 
 
 		Meteor.startup(function(){
+			
+			Meteor.call("getReposFromAPI","javascript","stars","desc",true,function(err,res){});   
 
 		
 			if(Meteor.user() !== null) {
@@ -20,7 +22,6 @@ if(Meteor.isClient) {
 			});
 
 
-			// Meteor.call("getReposFromAPI","javascript","stars","desc",true,function(err,res){});   
 		});
 
 

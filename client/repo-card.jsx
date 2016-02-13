@@ -16,7 +16,13 @@ RepoCard = React.createClass({
 
 	handleSwipeRight() {
 
+		if(Meteor.user()) {
 
+			var userName = this.props.repo.username;
+			var repoName = this.props.repo.name;
+			Meteor.call("starRepo",userName,repoName);
+
+		}
 
 		this.props.handleSwipeRight();
 	},
@@ -29,7 +35,6 @@ RepoCard = React.createClass({
 
 
 		};
-
 		return(
 
 				<div className="card-container">
