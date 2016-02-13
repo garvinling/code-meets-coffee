@@ -11,8 +11,7 @@ RepoCard = React.createClass({
 		
 		} else if(this.props.cardPosition === 2) {
 
-			intiialCardClass = classNames('card-container', 'card3')
-
+			initialCardClass = classNames('card-container', 'card3');
 		}
 
 	    return {
