@@ -7,7 +7,8 @@ App = React.createClass({
 		return { 
 
 			currentIndex : 0 ,
-			aboutVisible : false
+			aboutVisible : false,
+			animationSelected : 'hideAbout'
 
 		}
 
@@ -82,21 +83,27 @@ App = React.createClass({
 
 	toggleAbout() {
 
-		var about = this.state.aboutVisible;
-		this.setState({aboutVisible : !about});
+		this.setState({aboutVisible : !this.state.aboutVisible});
 
+
+		if(this.state.aboutVisible === false) {
+
+			this.setState({animationSelected : 'fadeInLeft'})
+
+		} else {
+			this.setState({animationSelected : 'fadeOutLeft'})
+
+		}
 	},
 
 	render(){
-
+		console.log(this.state.animationSelected);
 		return (
 			<div className="main-container">
 			<HeaderBar toggleAbout={this.toggleAbout} />
-			{ this.state.aboutVisible ?
-				<About /> : null
+			<About visible={this.state.aboutVisible} classFromApp={classNames('about-container','animated',this.state.animationSelected)}/> 
 
-
-			}
+	
 
 				{this.renderCurrentRepo()}
 			</div>

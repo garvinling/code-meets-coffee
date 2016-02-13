@@ -52,13 +52,6 @@ HeaderBar = React.createClass({
 
 	},
 
-	checkStar() {
-		console.log(Meteor.user())
-		Meteor.call("starRepo","airbnb","javascript");
-
-
-	},
-
 
 	render() {
 
@@ -75,7 +68,7 @@ HeaderBar = React.createClass({
 						}
 					</div>
 					<div className="col-xs-7 title">
-					<h4>&lt;CODE/&gt; MEETS COFFEE</h4>
+					<h4>WYGT</h4>
 
 					</div>
 					<div className="col-xs-1 about">
