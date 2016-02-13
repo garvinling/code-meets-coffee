@@ -1,8 +1,18 @@
 RepoCard = React.createClass({
 
+
+
 	getInitialState() {
+		console.log(this.props);
+		var initialCardClass = classNames('card-container');
+
+		if(this.props.cardPosition === 2) {
+			
+			initialCardClass = classNames('card-container' , 'underCard');
+		}
+
 	    return {
-	        containerClass : classNames('card-container')  
+	        containerClass : initialCardClass
 	    };
 	},
 
@@ -11,14 +21,15 @@ RepoCard = React.createClass({
 
 		repo : React.PropTypes.object.isRequired,
 		handleSwipeLeft : React.PropTypes.func.isRequired,
-		handleSwipeRight : React.PropTypes.func.isRequired
+		handleSwipeRight : React.PropTypes.func.isRequired,
+		cardPosition : React.PropTypes.number.isRequired
 
 	},
 
 
 	handleSwipeLeft() { 
 
-			this.setState({ containerClass : classNames('card-container','animated','rotateOutUpLeft')});
+		this.setState({ containerClass : classNames('card-container','animated','rotateOutUpLeft')});
         var that = this;
         setTimeout(function() {
 			that.props.handleSwipeLeft();
@@ -60,7 +71,6 @@ RepoCard = React.createClass({
 					<RepoCardStats repo={this.props.repo}/>
 
 					<div className="description-container">{this.props.repo.description}</div>
-
 
 					<div className="card-button-group row">
 						<div className="col-xs-6 nope">

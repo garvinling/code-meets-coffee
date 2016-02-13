@@ -28,7 +28,7 @@ App = React.createClass({
 		var repoFromAPI  = this.data.repoCards[this.state.currentIndex];
 		if(repoFromAPI !== undefined) {
 
-			return <RepoCard key={repoFromAPI._id} repo={repoFromAPI} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
+			return <RepoCard key={repoFromAPI._id} repo={repoFromAPI} cardPosition={1} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
 		}
 
 
@@ -47,7 +47,7 @@ App = React.createClass({
 		var repoFromAPI  = this.data.repoCards[this.state.currentIndex + 1];
 		if(repoFromAPI !== undefined) {
 
-			return <RepoCard key={repoFromAPI._id} repo={repoFromAPI} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
+			return <RepoCard key={repoFromAPI._id} cardPosition={2} repo={repoFromAPI} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
 		}
 		
 	},
@@ -66,7 +66,6 @@ App = React.createClass({
 
 		var length = this.data.repoCards.length;
 		this.setState({currentIndex : this.state.currentIndex + 1});
-		//this.setState({lastCommand  : 'nop'});
 
 
 		if(length - this.state.currentIndex === 15) {
@@ -80,7 +79,6 @@ App = React.createClass({
 		
 		var length = this.data.repoCards.length;
 		this.setState({currentIndex : this.state.currentIndex + 1});
-		//this.setState({lastCommand  : 'yep'});
 
 		if(length - this.state.currentIndex === 15) {
 			
