@@ -133,6 +133,7 @@ Meteor.methods({
 					var repoToPush = {
 
 						name : repoObj.name,
+						username : repoObj.owner.login,
 						link : repoObj.html_url,
 						stars : repoObj.stargazers_count,
 						forks : repoObj.forks_count,
@@ -195,6 +196,7 @@ Meteor.methods({
 					var repoToPush = {
 
 						name : repoObj.name,
+						username : repoObj.owner.login,
 						link : repoObj.html_url,
 						stars : repoObj.stargazers_count,
 						forks : repoObj.forks_count,
