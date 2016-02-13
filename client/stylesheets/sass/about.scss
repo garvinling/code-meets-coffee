@@ -1,0 +1,51 @@
+@import "variables";
+
+
+
+
+.about-container {
+	position:absolute;
+	left:0;
+	padding:20px;
+
+	padding-left:80px;
+	height:800px;
+	width:500px;
+
+	.about-description {
+
+		margin-bottom:50px;
+
+	}
+
+	h3 {
+		font-weight:700;
+	}
+
+	p { 
+
+		font-family: 'Source Sans Pro';
+		font-size:25px;
+	}
+
+
+	.testimonial {
+
+		font-size:14px;
+		text-transform: italic;
+		margin-bottom:30px;
+
+	}
+
+	.highlight {
+
+		font-size:23px;
+	}
+
+	.author {
+
+
+		font-weight:400;
+	}
+
+}

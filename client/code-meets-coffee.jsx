@@ -7,7 +7,11 @@ if(Meteor.isClient) {
 
 		Meteor.startup(function(){
 			
-			Meteor.call("getReposFromAPI","javascript","stars","desc",true,function(err,res){});   
+			// Meteor.call("getReposFromAPI","javascript","stars","desc",true,function(err,res){
+
+			// 	console.log(res);
+
+			// });   
 
 		
 			if(Meteor.user() !== null) {
@@ -18,7 +22,6 @@ if(Meteor.isClient) {
 			Meteor.subscribe('repos',function(){
 
 				ReactDOM.render(<App /> , document.getElementById('render-target'));
-
 			});
 
 

@@ -36,7 +36,6 @@ RepoCard = React.createClass({
 
 		};
 		return(
-
 				<div className="card-container">
 					
 			

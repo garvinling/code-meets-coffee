@@ -6,7 +6,8 @@ App = React.createClass({
 
 		return { 
 
-			currentIndex : 0 
+			currentIndex : 0 ,
+			aboutVisible : false
 
 		}
 
@@ -79,11 +80,23 @@ App = React.createClass({
 		this.forceUpdate();        
 	},
 
+	toggleAbout() {
+
+		var about = this.state.aboutVisible;
+		this.setState({aboutVisible : !about});
+
+	},
+
 	render(){
 
 		return (
 			<div className="main-container">
-			<HeaderBar />
+			<HeaderBar toggleAbout={this.toggleAbout} />
+			{ this.state.aboutVisible ?
+				<About /> : null
+
+
+			}
 
 				{this.renderCurrentRepo()}
 			</div>
