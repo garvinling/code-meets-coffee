@@ -6,7 +6,10 @@ App = React.createClass({
 
 		return { 
 
-			currentIndex : 0 
+			currentIndex : 0 ,
+			aboutVisible : false,
+			animationSelected : 'hideAbout',
+			lastCommand  : '' 
 
 		}
 
@@ -22,22 +25,45 @@ App = React.createClass({
 
 	renderCurrentRepo(){
 
-		var repoFromAPI  = this.data.repoCards[this.state.currentIndex];
-
-		if(repoFromAPI !== undefined) {
-
-			return <RepoCard key={repoFromAPI._id} repo={repoFromAPI} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
-		}
 
 
-		return (
+			var reposGroup = [
+				this.data.repoCards[this.state.currentIndex],
+				this.data.repoCards[this.state.currentIndex+1],
+				this.data.repoCards[this.state.currentIndex+2]
+			];
 
+			if(reposGroup[0] !== undefined) {
+
+				return ( 
+					<div>
+					<RepoCard key={reposGroup[0]._id} repo={reposGroup[0]}   cardPosition={0} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
+					<RepoCard key={reposGroup[1]._id} repo={reposGroup[1]}   cardPosition={1} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>
+					<RepoCard key={reposGroup[2]._id} repo={reposGroup[2]}   cardPosition={2} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>
+
+					</div>
+				);
+			}
+			return (
 				<div className="loading-container">
 					<img src="/loading-1.gif"/>
 				</div>
-
-
 			);
+		
+
+	},
+
+	renderNextRepo() {
+
+		var repoFromAPI  = this.data.repoCards[this.state.currentIndex + 1];
+		if(repoFromAPI !== undefined) {
+
+			return (
+
+				<RepoCard key={repoFromAPI._id} cardPosition={2} repo={repoFromAPI} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>
+			);
+		}
+		
 	},
 
 
@@ -50,42 +76,62 @@ App = React.createClass({
 		});   
 	},
 
+	shouldComponentUpdate(nextProps, nextState) {
+
+		/**
+			The +1 is because setState does not immediately update the state.
+			While the state is in transition, use +1 to lookahead since we are exepcting it to be updated
+			This is most likely not the best way to go about this.  Should refactor later.
+		**/
+
+		return (this.state.currentIndex +1) % 3 === 0;
+
+	},
+
 	handleSwipeLeft() {
 
-		var length = this.data.repoCards.length;
-		this.state.currentIndex++;
-
+		this.setState({currentIndex : this.state.currentIndex + 1});
 		if(length - this.state.currentIndex === 15) {
 			
 			this.getMoreRepos();
-		
 		}
-
-		this.forceUpdate();
-
 	},
 
 
 	handleSwipeRight() {
 		
-		var length = this.data.repoCards.length;
-		this.state.currentIndex++;
+		var length = this.data.repoCards.length; 
+
+		this.setState({currentIndex : this.state.currentIndex + 1});
 
 		if(length - this.state.currentIndex === 15) {
 			
 			this.getMoreRepos();
+		}
+	},
+
+	toggleAbout() {
+
+		this.setState({aboutVisible : !this.state.aboutVisible});
+
+		if(this.state.aboutVisible === false) {
+
+			this.setState({animationSelected : 'fadeInLeft'})
+
+		} else {
+			this.setState({animationSelected : 'fadeOutLeft'})
 
 		}
-		this.forceUpdate();        
 	},
 
 	render(){
-
 		return (
 			<div className="main-container">
-			<HeaderBar />
-
-				{this.renderCurrentRepo()}
+			<HeaderBar toggleAbout={this.toggleAbout} />
+			<About visible={this.state.aboutVisible} classFromApp={classNames('about-container','animated',this.state.animationSelected)}/> 
+				/**TODO: Need to render or queue the next card. **/
+						{this.renderCurrentRepo()}
+					
 			</div>
 
 		);
