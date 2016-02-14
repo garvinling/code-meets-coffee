@@ -19,7 +19,7 @@ if(Meteor.isClient) {
 			}
 
 
-			Meteor.subscribe('repos',function(){
+			Meteor.subscribe('fastrepos',function(){
 
 				ReactDOM.render(<App /> , document.getElementById('render-target'));
 			});
