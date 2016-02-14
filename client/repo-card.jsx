@@ -15,7 +15,8 @@ RepoCard = React.createClass({
 		}
 
 	    return {
-	        containerClass : initialCardClass
+	        containerClass : initialCardClass,
+	        starClass      : classNames('like-icon','hide')
 	    };
 	},
 
@@ -33,10 +34,6 @@ RepoCard = React.createClass({
 	handleSwipeLeft() { 
 
 
-		if(this.props.cardPosition === 2) {
-
-			console.log('swiped undercard')
-		}
 
 
 		this.setState({ containerClass : classNames('card-container','animated','rotateOutUpLeft')});
@@ -55,15 +52,25 @@ RepoCard = React.createClass({
 
 			var userName = this.props.repo.username;
 			var repoName = this.props.repo.name;
-
 			Meteor.call("starRepo",userName,repoName);
 
 		}
-		this.setState({ containerClass : classNames('card-container','animated','rotateOutUpRight')});
+		
+
+		this.setState({ starClass : classNames('like-icon','animated','zoomIn')});
+
         var that = this;
-        setTimeout(function() {
-			that.props.handleSwipeRight();
-        }, 900);
+
+		setTimeout(function() {
+			that.setState({ containerClass : classNames('card-container','animated','rotateOutUpRight')});
+	        setTimeout(function() {
+				that.props.handleSwipeRight();
+	        }, 900);
+        }, 500);
+
+       
+       
+
 	},
 
 	render(){
@@ -76,6 +83,12 @@ RepoCard = React.createClass({
 
 		return(
 				<div className={this.state.containerClass}>
+
+
+					<div className={this.state.starClass}>
+					  <span className="glyphicon glyphicon-star" aria-hidden="true"></span>
+
+					</div>
 
 					<div className="repo-bg-image" style={styles}></div>			
 					<div className="title-container"><h1 className="repo-title">{this.props.repo.name}</h1></div>

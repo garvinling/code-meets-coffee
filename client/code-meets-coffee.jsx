@@ -7,11 +7,11 @@ if(Meteor.isClient) {
 
 		Meteor.startup(function(){
 			
-			// Meteor.call("getReposFromAPI","javascript","stars","desc",true,function(err,res){
+			Meteor.call("getReposFromAPI","javascript","stars","desc",true,function(err,res){
 
-			// 	console.log(res);
+				console.log(res);
 
-			// });   
+			});   
 
 			// Meteor.call("cacheRepos","javascript","stars","desc",true,function(err,res){
 
@@ -24,7 +24,7 @@ if(Meteor.isClient) {
 			}
 
 
-			Meteor.subscribe('fastrepos',function(){
+			Meteor.subscribe('repos',function(){
 
 				ReactDOM.render(<App /> , document.getElementById('render-target'));
 			});

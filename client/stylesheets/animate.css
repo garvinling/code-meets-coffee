@@ -2706,7 +2706,11 @@
     -webkit-transform: scale3d(.3, .3, .3);
     transform: scale3d(.3, .3, .3);
   }
+  20% {
 
+    /*opacity:1;*/
+
+  }
   50% {
     opacity: 1;
   }
@@ -2718,6 +2722,13 @@
     -webkit-transform: scale3d(.3, .3, .3);
     transform: scale3d(.3, .3, .3);
   }
+
+  20% {
+
+    /*opacity:1;*/
+
+  }
+
 
   50% {
     opacity: 1;

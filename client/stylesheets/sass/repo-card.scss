@@ -21,8 +21,22 @@
 
 }
 
+.hide {
 
+	display:none;
+}
 
+.like-icon {
+
+	font-size:100px;
+	position:absolute;
+	left:50%;
+	margin-left:-30px;
+	color:$yellow;
+	-ms-transform: rotate($rotation); 
+    -webkit-transform: rotate($rotation); 
+    transform: rotate($rotation);
+}
 
 
 .card-container {
@@ -136,7 +150,7 @@
     text-overflow: ellipsis; 
 	.repo-title{
 		
-		font-size:60px;
+		font-size:40px;
 	}
 
 }
