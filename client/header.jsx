@@ -18,7 +18,7 @@ HeaderBar = React.createClass({
 
 	getInitialState() {
 		
-		var _buttonText = 'Login with Github'; 
+		var _buttonText = ''; 
 		var _onClick    = this.loginGit;
 		var _mode       = 'browsing';
 		
@@ -50,7 +50,7 @@ HeaderBar = React.createClass({
 
 	logoutGit() {
 		
-		this.setState({buttonText : 'Login with Github'});
+		this.setState({buttonText : ''});
 		this.setState({mode       : 'browsing'});
 		this.setState({onclick    : this.loginGit});
 		Meteor.logout(function(err,data){
@@ -64,28 +64,26 @@ HeaderBar = React.createClass({
 
 		return (
 			<div className="headerBar">
-				<div className="row">
-					<div className="col-xs-4">
-						{ Meteor.user() ? 
-							<button onClick={this.state.onclick} className="btn btn-primary">{this.state.buttonText}<img src="/github-256.png"/></button> :<button onClick={this.state.onclick} className="btn btn-primary">{this.state.buttonText}<img src="/github-256.png"/></button>
+					<div className="login">
 
-						}	
+					{ Meteor.user() ? 
+						<button onClick={this.state.onclick} className="btn btn-primary">{this.state.buttonText}<img src="/github-256.png"/></button> :<button onClick={this.state.onclick} className="btn btn-primary">{this.state.buttonText}<img src="/github-256.png"/></button>
 
-
-
+					}	
 					</div>
-					<div className="col-xs-6 title">
-					<h4>WYGT</h4>
 
+
+					<div className="title">
+						<h4>WYGT</h4>
 					</div>
-					<div className="col-xs-2 about">
-						 
-						 <span className="mode-indicator">
-								{this.state.mode}
-						 </span>
-						 <span className="glyphicon glyphicon-question-sign" aria-hidden="true" onClick={this.toggleAboutSection}></span>
+	
+					<div className="header-right">
+						<div className="mode-about">
+							 <span className="mode-indicator">{this.state.mode}</span>
+							 <span className="glyphicon glyphicon-question-sign" aria-hidden="true" onClick={this.toggleAboutSection}></span>
+						 </div>
 					</div>
-				</div>
+		
 
 
 			 </div>

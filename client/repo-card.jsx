@@ -55,6 +55,7 @@ RepoCard = React.createClass({
 
 			var userName = this.props.repo.username;
 			var repoName = this.props.repo.name;
+
 			Meteor.call("starRepo",userName,repoName);
 
 		}

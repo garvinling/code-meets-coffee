@@ -125,7 +125,7 @@ Meteor.methods({
 				fut.return(err);
 			} else {
 
-				for(var i = 0 ; i < 40 ; i++) {
+				for(var i = 0 ; i < NUM_REPOS_TO_QUEUE; i++) {
 
 					var randomIndex = getRandomPageNum(0,res.items.length -1 );
 					var repoObj     = res.items[randomIndex];
@@ -147,7 +147,7 @@ Meteor.methods({
 
 					}
 
-
+					console.log('pushing: ' + repoToPush.name);
 					SavedRepos.update({name:repoObj.name},repoToPush,{upsert:true},function(err,res){
 
 
@@ -285,10 +285,14 @@ Meteor.methods({
 			repo : repoName 
 
 		},function(err,res){
-
+			console.log('Wait')
 			if(err) {
+				console.log('error');
+				console.log(err);
 				fut.return(err);
 			} else {
+				console.log('response');
+				console.log(res);
 				fut.return(res);
 			}
 
