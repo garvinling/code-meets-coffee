@@ -7,7 +7,7 @@ App = React.createClass({
 		return { 
 
 			currentIndex : 0 ,
-			aboutVisible : false,
+			aboutVisible : true,
 			animationSelected : 'hideAbout',
 			lastCommand  : '' 
 
@@ -18,7 +18,7 @@ App = React.createClass({
 	getMeteorData(){
 
 		return {
-			repoCards  : Repos.find().fetch()
+			repoCards  : SavedRepos.find().fetch()
 		}	
 	},
 
@@ -37,10 +37,9 @@ App = React.createClass({
 
 				return ( 
 					<div>
-					<RepoCard key={reposGroup[0]._id} repo={reposGroup[0]}   cardPosition={0} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
-					<RepoCard key={reposGroup[1]._id} repo={reposGroup[1]}   cardPosition={1} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>
-					<RepoCard key={reposGroup[2]._id} repo={reposGroup[2]}   cardPosition={2} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>
-
+						<RepoCard key={reposGroup[0]._id} repo={reposGroup[0]}   cardPosition={0} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
+						<RepoCard key={reposGroup[1]._id} repo={reposGroup[1]}   cardPosition={1} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>
+						<RepoCard key={reposGroup[2]._id} repo={reposGroup[2]}   cardPosition={2} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>
 					</div>
 				);
 			}
@@ -129,7 +128,6 @@ App = React.createClass({
 			<div className="main-container">
 			<HeaderBar toggleAbout={this.toggleAbout} />
 			<About visible={this.state.aboutVisible} classFromApp={classNames('about-container','animated',this.state.animationSelected)}/> 
-				/**TODO: Need to render or queue the next card. **/
 						{this.renderCurrentRepo()}
 					
 			</div>
