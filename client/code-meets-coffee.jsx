@@ -13,7 +13,12 @@ if(Meteor.isClient) {
 
 			// });   
 
-		
+			// Meteor.call("cacheRepos","javascript","stars","desc",true,function(err,res){
+
+			// 	console.log(res);
+
+			// });   
+
 			if(Meteor.user() !== null) {
 				Meteor.call("authenticate");
 			}
