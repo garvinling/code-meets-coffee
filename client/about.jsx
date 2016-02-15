@@ -18,27 +18,27 @@ About = React.createClass({
 
 		return(
 			<div className={this.props.classFromApp}>
-				<h3>About</h3>
-				<p className="about-description">
-					WYGT gives you a (seemingly) endless stream of random open source projects pulled from Github.
-					Either use this app as a way to quickly browser through projects or login through Github and star 
-					these for later reference.  <a href="#">read more...</a>
-				</p>
+				<div className="about-text-container">
+					<h3>About</h3>
+					<p className="about-description">
+						WYGT gives you a (seemingly) endless stream of random open source projects pulled from the Github API.
+						Either use this as a way to quickly browse through projects or login through Github and the app will automatically 
+						send your stars to your Github profile.  <a href="#">read more...</a>
+					</p>
 
-				<p className="testimonial">
-					"You'll find things here that you didn't even know you wanted to exist.  
-					<span className="highlight"> But they do."</span>
-					<span className="author"> - CEO, Lorem Ipsum</span>
-				</p>
-				<p className="testimonial">
-					"WYGT pairs the convenience of casual sex apps like 🔥 and smushes it together with 
-					your desire to find interesting and useful <span className="highlight">open source projects."</span>
-					<span className="author"> - Some tech blog , probably</span>
-				</p>
-				<p className="testimonial">
-					"This isn't about pull request, branching, and merges.  This is that <span className="highlight">straight to master type shit. "</span>
-					<span className="author"> - Joe</span>
-				</p>
+					<p className="about-description">
+						This project was borne from a desire to quickly discover interesting open source projects.
+						This is a super early &amp; rough prototype so future enhancements and improvements 
+						are definitely in the plans.
+					</p>
+
+					<p className="about-description">
+						Find me  <a target="_blank"  href="https://twitter.com/GarvinLing">@garvinling</a> on twitter <br/>
+						Find the <a target="_blank" href="https://github.com/garvinling/code-meets-coffee">code</a> on github
+					</p>
+
+		
+				</div>
 			</div> 
 
 		 

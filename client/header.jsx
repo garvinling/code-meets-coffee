@@ -11,9 +11,16 @@ HeaderBar = React.createClass({
 	},
 
 	toggleAboutSection() {
+		this.setState({aboutVisible : !this.state.aboutVisible});
 
-		this.props.toggleAbout();
+		if(this.state.aboutVisible === false) {
 
+			this.setState({animationSelected : 'slideInUp'})
+
+		} else {
+			this.setState({animationSelected : 'slideOutDown'})
+
+		}
 	},
 
 	getInitialState() {
@@ -34,7 +41,10 @@ HeaderBar = React.createClass({
 	    return {
 	        buttonText : _buttonText,
 	        onclick    : _onClick,
-	        mode       : _mode
+	        mode       : _mode,
+	        aboutVisible : false,
+	        animationSelected : 'hideAbout'
+
 	    };
 	},
 
@@ -64,35 +74,23 @@ HeaderBar = React.createClass({
 
 		return (
 			<div className="headerBar">
-					<div className="login">
-
-					{ Meteor.user() ? 
-						<button onClick={this.state.onclick} className="btn btn-primary">{this.state.buttonText}<img src="/github-256.png"/></button> :<button onClick={this.state.onclick} className="btn btn-primary">{this.state.buttonText}<img src="/github-256.png"/></button>
-
-					}	
-					</div>
-
-
-					<div className="title">
-						<h4>WYGT</h4>
-					</div>
-	
-					<div className="header-right">
-						<div className="mode-about">
-							 <span className="mode-indicator">{this.state.mode}</span>
-							 <span className="glyphicon glyphicon-question-sign" aria-hidden="true" onClick={this.toggleAboutSection}></span>
-						 </div>
-					</div>
-		
-
-
+				<About visible={this.state.aboutVisible} classFromApp={classNames('about-container','animated',this.state.animationSelected)}/> 
+				<div className="login">
+				{ Meteor.user() ? 
+					<button onClick={this.state.onclick} className="btn btn-primary">{this.state.buttonText}<img src="/github-256.png"/></button> :<button onClick={this.state.onclick} className="btn btn-primary">{this.state.buttonText}<img src="/github-256.png"/></button>
+				}	
+				</div>
+				<div className="title">
+					<h4>WYGT</h4>
+				</div>
+				<div className="header-right">
+					<div className="mode-about">
+						 <span className="mode-indicator">{this.state.mode}</span>
+						 <span className="glyphicon glyphicon-question-sign" aria-hidden="true" onClick={this.toggleAboutSection}></span>
+					 </div>
+				</div>
 			 </div>
-
-
-
 		);
-
-
 	}
 
 
