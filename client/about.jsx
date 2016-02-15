@@ -22,23 +22,21 @@ About = React.createClass({
 					<h3>About</h3>
 					<p className="about-description">
 						WYGT gives you a (seemingly) endless stream of random open source projects pulled from the Github API.
-						Either use this app as a way to quickly browser through projects or login through Github and star 
-						these for later reference.  <a href="#">read more...</a>
+						Either use this as a way to quickly browse through projects or login through Github and the app will automatically 
+						send your stars to your Github profile.  <a href="#">read more...</a>
 					</p>
 
 					<p className="about-description">
-						This project was borne from a desire to quickly discover interesting open source projects to either contribute to 
-						or use in other projects. This is a super early/rough prototype to future enhancements and improvements are definitely in the plans.
+						This project was borne from a desire to quickly discover interesting open source projects.
+						This is a super early &amp; rough prototype so future enhancements and improvements 
+						are definitely in the plans.
 					</p>
 
 					<p className="about-description">
-						Find me <a href="https://twitter.com/GarvinLing">@garvinling</a> on twitter
+						Find me  <a target="_blank"  href="https://twitter.com/GarvinLing">@garvinling</a> on twitter <br/>
+						Find the <a target="_blank" href="https://github.com/garvinling/code-meets-coffee">code</a> on github
 					</p>
-					<p className="testimonial">
-						"You'll find things here that you didn't even know you wanted to exist.  
-						<span className="highlight"> But they do."</span>
-						<span className="author"> - CEO, Lorem Ipsum</span>
-					</p>
+
 		
 				</div>
 			</div> 
