@@ -2700,17 +2700,29 @@
   animation-name: rollOut;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @-webkit-keyframes zoomIn {
   from {
     opacity: 0;
     -webkit-transform: scale3d(.3, .3, .3);
     transform: scale3d(.3, .3, .3);
   }
-  20% {
 
-    /*opacity:1;*/
-
-  }
   50% {
     opacity: 1;
   }
@@ -2723,13 +2735,6 @@
     transform: scale3d(.3, .3, .3);
   }
 
-  20% {
-
-    /*opacity:1;*/
-
-  }
-
-
   50% {
     opacity: 1;
   }
@@ -2739,6 +2744,24 @@
   -webkit-animation-name: zoomIn;
   animation-name: zoomIn;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @-webkit-keyframes zoomInDown {
   from {

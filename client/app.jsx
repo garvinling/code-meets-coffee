@@ -7,8 +7,6 @@ App = React.createClass({
 		return { 
 
 			currentIndex : 0 ,
-			aboutVisible : true,
-			animationSelected : 'hideAbout',
 			lastCommand  : '' 
 
 		}
@@ -18,7 +16,7 @@ App = React.createClass({
 	getMeteorData(){
 
 		return {
-			repoCards  : Repos.find().fetch()
+			repoCards  : SavedRepos.find().fetch()
 		}	
 	},
 
@@ -108,27 +106,11 @@ App = React.createClass({
 		}
 	},
 
-	toggleAbout() {
-
-		this.setState({aboutVisible : !this.state.aboutVisible});
-
-		if(this.state.aboutVisible === false) {
-
-			this.setState({animationSelected : 'fadeInLeft'})
-
-		} else {
-			this.setState({animationSelected : 'fadeOutLeft'})
-
-		}
-	},
-
 	render(){
 		return (
 			<div className="main-container">
-			<HeaderBar toggleAbout={this.toggleAbout} />
-			<About visible={this.state.aboutVisible} classFromApp={classNames('about-container','animated',this.state.animationSelected)}/> 
-						{this.renderCurrentRepo()}
-					
+				<HeaderBar toggleAbout={this.toggleAbout} />
+				{this.renderCurrentRepo()}
 			</div>
 
 		);
