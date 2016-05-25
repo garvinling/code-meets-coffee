@@ -91,7 +91,7 @@ var getReadMe = function(username , repo) {
 
 		return fut.wait();
 
-	}
+}
 
 
 
@@ -129,7 +129,6 @@ Meteor.methods({
 
 					var randomIndex = getRandomPageNum(0,res.items.length -1 );
 					var repoObj     = res.items[randomIndex];
-
 					var repoToPush = {
 
 						name : repoObj.name,
@@ -171,7 +170,10 @@ Meteor.methods({
 	},
 
 	getReposFromAPI: function(keyword , sortBy , order , destroy) {
+		
 		var fut = new Future();
+		var reposToReturn = [];
+
 
 		if(destroy) {
 
@@ -194,7 +196,7 @@ Meteor.methods({
 					var repoObj     = res.items[randomIndex];
 
 					var repoToPush = {
-
+						_id : repoObj.id,
 						name : repoObj.name,
 						username : repoObj.owner.login,
 						link : repoObj.html_url,
@@ -210,6 +212,8 @@ Meteor.methods({
 
 					}
 
+					reposToReturn.push(repoToPush);
+
 					Repos.update({name:repoToPush.name},repoToPush,{upsert:true},function(err,data){
 							
 
@@ -218,7 +222,7 @@ Meteor.methods({
 
 				}			
 
-				fut.return(repoObj);
+				fut.return(reposToReturn);
 
 			}
 

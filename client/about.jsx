@@ -21,7 +21,7 @@ About = React.createClass({
 				<div className="about-text-container">
 					<h3>About</h3>
 					<p className="about-description">
-						WYGT gives you a (seemingly) endless stream of random open source projects pulled from the Github API.
+						Code Meets Coffee gives you a (seemingly) endless stream of random open source projects pulled from the Github API.
 						Either use this as a way to quickly browse through projects or login through Github and the app will automatically 
 						send your stars to your Github profile.  <a href="#">read more...</a>
 					</p>

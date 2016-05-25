@@ -4,48 +4,55 @@ App = React.createClass({
 
 	getInitialState(){
 
+
+		this.renderCurrentRepo();
+
+
 		return { 
 
 			currentIndex : 0 ,
-			lastCommand  : '' 
+			lastCommand  : '',
+			reposGroup : [{_id:0},{_id:1},{_id:2}],
+			repos : [],
+			aboutVisible : false,
+			animationSelected : 'hideAbout'
 
 		}
 
 	},
 
+
 	getMeteorData(){
 
 		return {
-			repoCards  : Repos.find().fetch()
+			currentUser : Meteor.user()
 		}	
 	},
 
 
 	renderCurrentRepo(){
-
-
-			var reposGroup = [
-				this.data.repoCards[this.state.currentIndex],
-				this.data.repoCards[this.state.currentIndex+1],
-				this.data.repoCards[this.state.currentIndex+2]
-			];
-
-			if(reposGroup[0] !== undefined) {
-
-				return ( 
-					<div>
-						<RepoCard key={reposGroup[0]._id} repo={reposGroup[0]}   cardPosition={0} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>;
-						<RepoCard key={reposGroup[1]._id} repo={reposGroup[1]}   cardPosition={1} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>
-						<RepoCard key={reposGroup[2]._id} repo={reposGroup[2]}   cardPosition={2} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>
-					</div>
-				);
-			}
-			return (
-				<div className="loading-container">
-					<img src="/loading-1.gif"/>
-				</div>
-			);
 		
+		var that        = this;
+		var _reposGroup = [];
+
+
+			Meteor.call('getReposFromAPI','javascript','stars','desc',false,function(err,res){
+					
+
+				    _reposGroup = [
+
+						res[this.state.currentIndex],
+						res[this.state.currentIndex+1],
+						res[this.state.currentIndex+2]
+
+					];
+
+					this.setState({reposGroup:_reposGroup, repos : res});
+
+			}.bind(this));   
+
+
+
 
 	},
 
@@ -65,28 +72,36 @@ App = React.createClass({
 
 	getMoreRepos() {
 
-		Meteor.call("getReposFromAPI","javascript","stars","desc",false,function(err,res){
+		Meteor.call('getReposFromAPI','javascript','stars','desc',false,function(err,res){
 				
 				console.log('Done retrieving repos.');
 
 		});   
 	},
 
-	shouldComponentUpdate(nextProps, nextState) {
+	// shouldComponentUpdate(nextProps, nextState) {
 
-		/**
-			The +1 is because setState does not immediately update the state.
-			While the state is in transition, use +1 to lookahead since we are exepcting it to be updated
-			This is most likely not the best way to go about this.  Should refactor later.
-		**/
+	// 	*
+	// 		The +1 is because setState does not immediately update the state.
+	// 		While the state is in transition, use +1 to lookahead since we are exepcting it to be updated
+	// 		This is most likely not the best way to go about this.  Should refactor later.
+	// 	*
 
-		return (this.state.currentIndex +1) % 3 === 0;
 
-	},
+	// 	return true;
+
+	// 	// if(this.state.repos.length < 1) {
+	// 	// 	return true;
+	// 	// }
+
+	// 	// return (this.state.currentIndex +1) % 3 === 0; //move this to swipe handler
+
+	// },
 
 	handleSwipeLeft() {
 
 		this.setState({currentIndex : this.state.currentIndex + 1});
+
 		if(length - this.state.currentIndex === 15) {
 			
 			this.getMoreRepos();
@@ -97,7 +112,6 @@ App = React.createClass({
 	handleSwipeRight() {
 		
 		var length = this.data.repoCards.length; 
-
 		this.setState({currentIndex : this.state.currentIndex + 1});
 
 		if(length - this.state.currentIndex === 15) {
@@ -106,18 +120,39 @@ App = React.createClass({
 		}
 	},
 
-	render(){
+
+
+	toggleAboutSection() {
+		
+		this.setState({aboutVisible : !this.state.aboutVisible});
+
+		if(this.state.aboutVisible === false) {
+
+			this.setState({animationSelected : 'slideInUp'})
+
+		} else {
+			this.setState({animationSelected : 'slideOutDown'})
+
+		}
+	},
+
+
+	render(){ 
 		return (
 			<div className="main-container">
-				<HeaderBar toggleAbout={this.toggleAbout} />
-				{this.renderCurrentRepo()}
+				<HeaderBar user={this.data.currentUser} toggleAbout={this.toggleAboutSection} aboutVisible={this.state.aboutVisible} animationSelected={this.state.animationSelected} />
+			
+						<RepoCard key={this.state.reposGroup[0]._id} repo={this.state.reposGroup[0]}   cardPosition={0} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>
+						<RepoCard key={this.state.reposGroup[1]._id} repo={this.state.reposGroup[1]}   cardPosition={1} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/>
+						<RepoCard key={this.state.reposGroup[2]._id} repo={this.state.reposGroup[2]}   cardPosition={2} handleSwipeRight={this.handleSwipeRight} handleSwipeLeft={this.handleSwipeLeft}/> 
+				
+
 			</div>
 
 		);
 
 	}
 
-
-
-
 });
+
+var currentIndex = 0;
