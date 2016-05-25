@@ -59,11 +59,10 @@ HeaderBar = React.createClass({
 				<div className="login">
 				{ this.props.user ? 
 					<button onClick={this.logoutGit} className="btn btn-primary"><img src="/github-256.png"/><span className="github-user">{buttonText}</span></button> :<button onClick={this.loginGit} className="btn btn-primary"><img src="/github-256.png"/></button>
-				}	<h4>CODE MEETS COFFEE</h4>
+				}
+				<h4>CODE MEETS COFFEE</h4>
 				</div>
-				<div className="title">
-					<h4></h4>
-				</div>
+			
 				<div className="header-right">
 					<div className="mode-about">
 						 <span className="mode-indicator">{mode}</span>

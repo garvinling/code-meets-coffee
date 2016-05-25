@@ -22,7 +22,7 @@ About = React.createClass({
 					<h3>About</h3>
 					<p className="about-description">
 						Code Meets Coffee gives you a (seemingly) endless stream of random open source projects pulled from the Github API.
-						Use this as a way to quickly browse through projects or login through Github and your likes will automatically 
+						Use this as a way to browse through projects or login through Github and your likes will automatically 
 						star the repos to your Github profile.  <a href="#">read more...</a>
 					</p>
 
@@ -32,7 +32,7 @@ About = React.createClass({
 					</p>
 
 					<p className="about-description">
-						Follow me  <a target="_blank"  href="https://twitter.com/GarvinLing">@garvinling</a> on twitter <br/>
+						Follow   <a target="_blank"  href="https://twitter.com/GarvinLing">@garvinling</a> on twitter <br/>
 						Find the <a target="_blank" href="https://github.com/garvinling/code-meets-coffee">code</a> on github
 					</p>
 
