@@ -32,7 +32,7 @@ About = React.createClass({
 					</p>
 
 					<p className="about-description">
-						Find me  <a target="_blank"  href="https://twitter.com/GarvinLing">@garvinling</a> on twitter <br/>
+						Follow me  <a target="_blank"  href="https://twitter.com/GarvinLing">@garvinling</a> on twitter <br/>
 						Find the <a target="_blank" href="https://github.com/garvinling/code-meets-coffee">code</a> on github
 					</p>
 
