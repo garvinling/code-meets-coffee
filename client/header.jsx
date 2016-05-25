@@ -50,7 +50,6 @@ HeaderBar = React.createClass({
 
 			buttonText = this.props.user.profile.name;
 			mode       = 'Starring';
-			console.log('USER READY');
 
 		} 
 
@@ -59,11 +58,11 @@ HeaderBar = React.createClass({
 				<About visible={this.props.aboutVisible} classFromApp={classNames('about-container','animated',this.props.animationSelected)}/> 
 				<div className="login">
 				{ this.props.user ? 
-					<button onClick={this.logoutGit} className="btn btn-primary">{buttonText}<img src="/github-256.png"/></button> :<button onClick={this.loginGit} className="btn btn-primary"><img src="/github-256.png"/></button>
-				}	
+					<button onClick={this.logoutGit} className="btn btn-primary"><img src="/github-256.png"/><span className="github-user">{buttonText}</span></button> :<button onClick={this.loginGit} className="btn btn-primary"><img src="/github-256.png"/></button>
+				}	<h4>CODE MEETS COFFEE</h4>
 				</div>
 				<div className="title">
-					<h4>CODE MEETS COFFEE</h4>
+					<h4></h4>
 				</div>
 				<div className="header-right">
 					<div className="mode-about">

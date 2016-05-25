@@ -9,6 +9,8 @@
 	left:0;
 	background-color:$dark-gray;
 	font-family: 'Source Sans Pro', sans-serif;
+
+
 	img { 
 
 		margin-left:10px;
@@ -22,13 +24,18 @@
 		margin-left:30px;
 		background-color:$dark-gray;
 		border: 2px solid #fff;
+		// max-width:135px;
+		overflow:hidden;
 
 	}
 
 	h4 { 
+
 		display:inline;
+		line-height: 20px;
 		letter-spacing: 3px;
 		margin-left:20px;
+		margin-top:5px;
 
 	}
 
@@ -38,8 +45,9 @@
 
 	}
 	.title {
+
 		position:absolute;
-		left:150px;
+		left:160px;
 		top:15px;
 	}
 
