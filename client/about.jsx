@@ -22,12 +22,11 @@ About = React.createClass({
 					<h3>About</h3>
 					<p className="about-description">
 						Code Meets Coffee gives you a (seemingly) endless stream of random open source projects pulled from the Github API.
-						Either use this as a way to quickly browse through projects or login through Github and the app will automatically 
-						send your stars to your Github profile.  <a href="#">read more...</a>
+						Use this as a way to quickly browse through projects or login through Github and your likes will automatically 
+						star the repos to your Github profile.  <a href="#">read more...</a>
 					</p>
 
 					<p className="about-description">
-						This project was borne from a desire to quickly discover interesting open source projects.
 						This is a super early &amp; rough prototype so future enhancements and improvements 
 						are definitely in the plans.
 					</p>

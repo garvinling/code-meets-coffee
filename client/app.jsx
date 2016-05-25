@@ -12,7 +12,7 @@ App = React.createClass({
 
 			currentIndex : 0 ,
 			lastCommand  : '',
-			reposGroup : [{_id:0},{_id:1},{_id:2}],
+			reposGroup : [{_id:currentIndex},{_id:currentIndex+1},{_id:currentIndex+2}],
 			repos : [],
 			aboutVisible : false,
 			animationSelected : 'hideAbout'
@@ -100,7 +100,31 @@ App = React.createClass({
 
 	handleSwipeLeft() {
 
-		this.setState({currentIndex : this.state.currentIndex + 1});
+
+		var length = this.state.repos.length; 
+
+		if((this.state.currentIndex+1) % 3 === 0){
+			
+
+			var newIndex      = this.state.currentIndex + 1;
+			var newReposGroup = [this.state.repos[newIndex],this.state.repos[newIndex+1],this.state.repos[newIndex+2]];
+			
+
+			this.setState({
+
+				currentIndex : newIndex,
+				reposGroup   : newReposGroup
+
+			});
+
+
+		} else {
+
+
+			this.setState({currentIndex : this.state.currentIndex + 1});
+
+		}
+
 
 		if(length - this.state.currentIndex === 15) {
 			
@@ -111,8 +135,31 @@ App = React.createClass({
 
 	handleSwipeRight() {
 		
-		var length = this.data.repoCards.length; 
-		this.setState({currentIndex : this.state.currentIndex + 1});
+		var length = this.state.repos.length; 
+		
+		if((this.state.currentIndex+1) % 3 === 0){
+			
+
+			var newIndex      = this.state.currentIndex + 1;
+			var newReposGroup = [this.state.repos[newIndex],this.state.repos[newIndex+1],this.state.repos[newIndex+2]];
+			
+
+			this.setState({
+
+				currentIndex : newIndex,
+				reposGroup   : newReposGroup
+
+			});
+
+
+		} else {
+
+
+			this.setState({currentIndex : this.state.currentIndex + 1});
+
+		}
+
+
 
 		if(length - this.state.currentIndex === 15) {
 			
