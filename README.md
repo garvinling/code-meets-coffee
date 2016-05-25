@@ -3,4 +3,4 @@ Code Meets Coffee gives you a (seemingly) endless stream of random open source p
 
 This is a super early & rough prototype so future enhancements and improvements are definitely in the plans.
 
-![alt tag](https://raw.githubusercontent.com/garvinling/personal-site/gh-pages/cmc.png)
+![alt tag](https://raw.githubusercontent.com/garvinling/personal-site/gh-pages/cmc-screen.png)
