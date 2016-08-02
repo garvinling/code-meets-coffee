@@ -171,16 +171,18 @@ Meteor.methods({
 
 	getReposFromAPI: function(keyword , sortBy , order , destroy) {
 		
-		var fut = new Future();
+		var fut           = new Future();
 		var reposToReturn = [];
-
+		var dupesList     = {};
+		var randomIndex   = 0;
+		var repoObj       = {};
+		var repoToPush    = {};
 
 		if(destroy) {
 
 			Repos.remove({});  //clear the db before getting new batch of repos
 
 		}
-
 
 		var getRandomRepoCallback = Meteor.bindEnvironment(function(err,res){
 
@@ -190,12 +192,17 @@ Meteor.methods({
 
 			} else {
 
+				if(github.hasNextPage(res)){
+
+					console.log('There is a next page');
+				}
+
 				for(var i = 0 ; i < NUM_REPOS_TO_QUEUE ; i++) {
 
-					var randomIndex = getRandomPageNum(0,res.items.length -1 );
-					var repoObj     = res.items[randomIndex];
+					// randomIndex = getRandomPageNum(0,res.items.length -1 );
+				    repoObj     = res.items[i];
+				    repoToPush = {
 
-					var repoToPush = {
 						_id : repoObj.id,
 						name : repoObj.name,
 						username : repoObj.owner.login,
@@ -210,17 +217,19 @@ Meteor.methods({
 						language : repoObj.language,
 						image : repoObj.owner.avatar_url
 
-					}
+					};	
 
-					reposToReturn.push(repoToPush);
+					if(!dupesList.hasOwnProperty(repoObj.id)){
 
-					Repos.update({name:repoToPush.name},repoToPush,{upsert:true},function(err,data){
-							
+						reposToReturn.push(repoToPush);
+				    	dupesList[repoObj.id] = true;			//marks current repo ID as visited/used
 
 
-					});
+				    }
+				    
+					// Repos.update({name:repoToPush.name},repoToPush,{upsert:true});
+				}		
 
-				}			
 
 				fut.return(reposToReturn);
 
@@ -228,10 +237,9 @@ Meteor.methods({
 
 		});
 
-
 		github.search.repos({
 
-			q : 'language:' + keyword , 
+			q : 'language:' + keyword, 
 			sort : sortBy , 
 			order : 'desc',
 			per_page: NUM_PER_PAGE,
@@ -239,8 +247,9 @@ Meteor.methods({
 
 
 		},getRandomRepoCallback);
+
 	
-	return fut.wait();
+		return fut.wait();
 
 	},
 

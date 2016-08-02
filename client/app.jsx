@@ -39,6 +39,7 @@ App = React.createClass({
 			Meteor.call('getReposFromAPI','javascript','stars','desc',false,function(err,res){
 					
 
+
 				    _reposGroup = [
 
 						res[this.state.currentIndex],
@@ -108,7 +109,6 @@ App = React.createClass({
 
 			var newIndex      = this.state.currentIndex + 1;
 			var newReposGroup = [this.state.repos[newIndex],this.state.repos[newIndex+1],this.state.repos[newIndex+2]];
-			
 
 			this.setState({
 
@@ -142,7 +142,8 @@ App = React.createClass({
 
 			var newIndex      = this.state.currentIndex + 1;
 			var newReposGroup = [this.state.repos[newIndex],this.state.repos[newIndex+1],this.state.repos[newIndex+2]];
-			
+
+
 
 			this.setState({
 
@@ -185,6 +186,7 @@ App = React.createClass({
 
 
 	render(){ 
+
 		return (
 			<div className="main-container">
 				<HeaderBar user={this.data.currentUser} toggleAbout={this.toggleAboutSection} aboutVisible={this.state.aboutVisible} animationSelected={this.state.animationSelected} />
